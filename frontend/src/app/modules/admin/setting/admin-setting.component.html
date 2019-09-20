@@ -1,0 +1,17 @@
+<div class="row no-gutters">
+  <nz-tabset class="ant-col-sm-24 ant-col-lg-24">
+    <nz-tab [nzTitle]="userlist">
+      <ng-template #userlist>
+        <i nz-icon type="team" theme="outline"></i>Users
+      </ng-template>
+      <app-admin-user-list></app-admin-user-list>
+    </nz-tab>
+
+    <nz-tab [nzTitle]="appprop">
+      <ng-template #appprop>
+        <i nz-icon type="setting" theme="outline"></i>Properties
+      </ng-template>
+      <p>Application properties will come here</p>
+    </nz-tab>
+  </nz-tabset>
+</div>

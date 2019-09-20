@@ -1,0 +1,61 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Class Section</label>
+            <div class="col-sm-2">
+              <nz-select style="width: 200px;" class="form-control"
+                         [(ngModel)]="classId" nzAllowClear nzPlaceHolder="Select Class"
+                         (ngModelChange)="classSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+                <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-lg-8 float-right">
+              <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="sectionList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th nzWidth="75px">#</th>
+              <th>Class</th>
+              <th>Section Name</th>
+              <!--<th>Action</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let section of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{section.class_name}}</td>
+              <td>{{section.name}}</td>
+              <!--<td>-->
+              <!--<a routerLink="/client/class/{{name.id}}/detail"-->
+              <!--class="mr-1" placement="bottom" ngbTooltip="View {{name.name}} detail">-->
+              <!--<i class="fa fa-tv fa-lg"></i></a>&nbsp;-->
+              <!--</td>-->
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

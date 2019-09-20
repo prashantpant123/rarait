@@ -1,0 +1,300 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Register Student</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="studentRegisterForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <nz-divider nzText="General Information" nzOrientation="left"></nz-divider>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">First Name: <span
+                  class="text-danger">*</span></label>
+                <input type="text" class="form-control input-md" formControlName="studentFirstName"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentFirstName.errors }"/>
+                <div *ngIf="submitted && f.studentFirstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentFirstName.errors.required">Full Name is required</div>
+                  <div *ngIf="f.studentFirstName.errors.pattern">Invalid fullname</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Last Name: <span
+                  class="text-danger">*</span></label>
+                <input type="text" class="form-control input-md" formControlName="studentLastName"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentLastName.errors }"/>
+                <div *ngIf="submitted && f.studentLastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentLastName.errors.required">Last Name is required</div>
+                  <div *ngIf="f.studentLastName.errors.pattern">Invalid fullname</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4 col-md-4 ml-1">
+                <label class="control-label">Date Of Birth(AD): <span
+                  class="text-danger">*</span></label><br/>
+                <nz-date-picker formControlName="studentDOB"
+                                (ngModelChange)="onDOBSelectEvent($event)"
+                                [nzSize]="_size"></nz-date-picker>
+                <div *ngIf="submitted && f.studentDOB.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentDOB.errors.required">DOB is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Gender:</label><br/>
+                <nz-radio-group [(ngModel)]="_gender" formControlName="studentGender">
+                  <label nz-radio nzValue="Male">Male</label>
+                  <label nz-radio nzValue="Female">Female</label>
+                </nz-radio-group>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Blood Group: </label>
+                <select class="form-control"
+                        (change)="bloodGroupSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let bg of bloodGroupList" value="{{bg.id}}">{{bg.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Nationality: <span class="text-danger">*</span></label>
+                <select class="form-control"
+                        (change)="nationalitySelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let nationality of nationalityList" value="{{nationality.id}}">{{nationality.name |
+                    titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row mt-1">
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Profile Picture: <span
+                  class="text-danger">*</span></label><br/>
+                <label class="btn btn-default" style="margin-left: -12px;">
+                  <input type="file" (change)="fileSelected($event)" required>
+                </label>
+                <div *ngIf="selectedFile" class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                       attr.aria-valuenow="{{progress.percentage}}"
+                       aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                    {{progress.percentage}}%
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <nz-divider nzText="Class Information" nzOrientation="left"></nz-divider>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Class: <span
+                  class="text-danger">*</span></label>
+                <select class="form-control"
+                        (change)="classSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let clazz of clazzList" value="{{clazz.id}}">{{clazz.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Section: <span
+                  class="text-danger">*</span></label>
+                <select class="form-control"
+                        (change)="sectionSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let section of sectionList" value="{{section.id}}">{{section.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Roll Number: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control input-md" formControlName="studentRollNumber"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentRollNumber.errors }"/>
+                <div *ngIf="submitted && f.studentRollNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentRollNumber.errors.required">Roll number is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Registration No.: <span class="text-danger">*</span></label>
+                <nz-input-group nzCompact>
+                  <input class="form-control" tabIndex="-1" type="text" formControlName="registrationPrefix"
+                         style="width: 20%; height:38px; text-align: right;" readonly/>
+                  <input type="text" class="form-control input-md"
+                         formControlName="studentRegistrationNumber"
+                         [ngClass]="{ 'is-invalid': submitted && f.studentRegistrationNumber.errors }"
+                         (blur)="registrationNumberCheck()" style="width: 80%; height:38px;"/>
+                </nz-input-group>
+                <div *ngIf="submitted && f.studentRegistrationNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentRegistrationNumber.errors.required">Registration number is required</div>
+                  <div *ngIf="f.studentRegistrationNumber.errors.minlength">Registration number length is less</div>
+                  <div *ngIf="f.studentRegistrationNumber.errors.maxlength">Registration number length is long</div>
+                  <div *ngIf="f.studentRegistrationNumber.errors.exist">Registration number already exist. Please
+                    use different code.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div [hidden]="montessori" class="form-row">
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Weight:</label>
+                <input type="text" class="form-control input-md" formControlName="studentWeight"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentWeight.errors }"/>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Height:</label>
+                <input type="text" class="form-control input-md" formControlName="studentHeight"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentHeight.errors }"/>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-8 col-md-8">
+                <label class="control-label">Address: <span class="text-danger">*</span></label>
+                <input type="text" formControlName="studentAddress" class="form-control input-md"
+                       placeholder="1 Garidhara, Kathmandu Municipality, Province 3"
+                       [ngClass]="{ 'is-invalid': submitted && f.studentAddress.errors }"/>
+                <div *ngIf="submitted && f.studentAddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentAddress.errors.required">Address is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <nz-divider nzText="Parent Information" nzOrientation="left"></nz-divider>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Father Name: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentFatherName"
+                       [ngClass]="{'is-invalid': submitted && f.studentFatherName.errors}"/>
+                <div *ngIf="submitted && f.studentFatherName.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentFatherName.errors.required">Father name is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="control-label">Occupation</label>
+                <select class="form-control"
+                        (change)="occupationSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let occupation of occupations" value="{{occupation.id}}">{{occupation.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4">
+                <label class="form-control-label">Contact: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentFatherContact"
+                       [ngClass]="{'is-invalid': submitted && f.studentFatherContact.errors}"/>
+                <div *ngIf="submitted && f.studentFatherContact.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentFatherContact.errors.required">Father contact is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Mother Name: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentMotherName"
+                       [ngClass]="{'is-invalid': submitted && f.studentMotherName.errors}"/>
+                <div *ngIf="submitted && f.studentMotherName.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentMotherName.errors.required">Mother name is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4">
+                <label class="control-label">Occupation</label>
+                <select class="form-control"
+                        (change)="momOccupationSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let occupation of occupations" value="{{occupation.id}}">{{occupation.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4">
+                <label class="form-control-label">Contact: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentMotherContact"
+                       [ngClass]="{'is-invalid': submitted && f.studentMotherContact.errors}"/>
+                <div *ngIf="submitted && f.studentMotherContact.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentMotherContact.errors.required">Mother contact is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4 col-md-4 mr-1">
+                <label class="form-control-label">Guardian Name: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentGuardianName"
+                       [ngClass]="{'is-invalid': submitted && f.studentGuardianName.errors}"/>
+                <div *ngIf="submitted && f.studentGuardianName.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentGuardianName.errors.required">Guardian name is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4 col-md-4">
+                <label class="form-control-label">Contact: <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="studentGuardianContact"
+                       [ngClass]="{'is-invalid': submitted && f.studentGuardianContact.errors}"/>
+                <div *ngIf="submitted && f.studentGuardianContact.errors" class="invalid-feedback">
+                  <div *ngIf="f.studentGuardianContact.errors.required">Guardian contact is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <nz-divider nzText="Transport" nzOrientation="left"></nz-divider>
+
+              <div class="form-group col-sm-2 col-md-2 mr-1">
+                <label class="control-label">Transport: </label>
+                <select class="form-control"
+                        (change)="busSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                  <option value="-1">Select</option>
+                  <option *ngFor="let transport of transportList" value="{{transport.id}}">{{transport.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group row">
+              <div class="form-group col-sm-6 col-md-6 mt-2">
+                <button type="submit" class="btn btn-info mr-2">Submit</button>
+                <button type="reset" class="btn btn-danger"
+                        (click)="onCancel()">Cancel
+                </button>
+              </div>
+            </div>
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

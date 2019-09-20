@@ -1,0 +1,78 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Attendance</label>
+            <div class="col-sm-4">
+              <nz-select style="width: 200px;" class="form-control mr-3"
+                         [(ngModel)]="classValue" nzAllowClear nzPlaceHolder="Select Class"
+                         (ngModelChange)="classSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+                <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+              </nz-select>
+              <nz-date-picker
+                [(ngModel)]="_attendance_date"
+                (ngModelChange)="onAttendanceDateChange($event)"
+                class="form-control col-md-4 col-sm-4"></nz-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="attendanceList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Roll Number</th>
+              <th>Attendance</th>
+              <th>Remarks</th>
+            </tr>
+            </thead>
+            <tbody nz-tbody>
+            <tr *ngFor="let attendance of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{attendance.full_name}}</td>
+              <td>{{attendance.roll_number}}</td>
+              <td>
+                <nz-radio-group [(ngModel)]="cacheData[attendance.student_id].data.status">
+                  <label *ngFor="let status of attendanceStatusList" nz-radio-button nzValue="{{status.id}}">{{status.name}}</label>
+                </nz-radio-group>
+              </td>
+              <td>
+                <input nz-input nzSize="default"
+                       [(ngModel)]="cacheData[attendance.student_id].data.remarks"/>
+              </td>
+              <!--<td>-->
+                <!--<a routerLink="/client/attendance/{{attendance.id}}/detail"-->
+                   <!--class="mr-1" placement="bottom" ngbTooltip="View '{{attendance.full_name}}' detail">-->
+                  <!--<i class="fa fa-tv fa-lg"></i></a>&nbsp;-->
+              <!--</td>-->
+            </tr>
+            </tbody>
+          </nz-table>
+          <div *ngIf="attendanceList?.length > 0" class="form-group col-sm-6 col-md-6 float-left">
+            <button nz-button nzType="primary" [nzLoading]="submitting" (click)="onSubmit()" class="mr-2">
+              <i nz-icon type="upload" theme="outline"></i>Update
+            </button>
+            <button nz-button nzType="danger"><i nz-icon type="close-circle" theme="outline"></i>Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

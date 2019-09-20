@@ -1,0 +1,15 @@
+.gradle
+.idea
+build
+gradlew
+gradlew.bat
+education.iml
+education.ipr
+education.iws
+.settings
+.classpath
+.project
+.history
+bin
+catalina.base_IS_UNDEFINED
+node_modules

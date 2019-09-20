@@ -1,0 +1,55 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Exams</label>
+          <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>
+        </div>
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="examList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Session</th>
+              <th>Start Date(AD)</th>
+              <th>End Date(AD)</th>
+              <th>Weightage</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let exam of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{exam.name}}</td>
+              <td>{{exam.academic_session}}</td>
+              <td>{{exam.start_date | date: 'dd-MM-yyyy'}}</td>
+              <td>{{exam.end_date | date: 'dd-MM-yyyy'}}</td>
+              <td>{{exam.weightage}}</td>
+              <td>
+                <a nz-tooltip routerLink="/client/exam/{{exam.id}}/detail"
+                   class="mr-1" nzPlacement="bottom" nzTitle="View '{{exam.name}}' detail">
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

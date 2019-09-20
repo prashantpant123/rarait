@@ -1,0 +1,52 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Transport Registration</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="transportRegisterForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Name:</label>
+              <input type="text" formControlName="vehicleName" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.vehicleName.errors }" autofocus/>
+              <div *ngIf="submitted && f.vehicleName.errors" class="invalid-feedback">
+                <div *ngIf="f.vehicleName.errors.required">Name is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Transport Number Plate: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="vehicleNumber" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.vehicleNumber.errors }"/>
+              <div *ngIf="submitted && f.vehicleNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.vehicleNumber.errors.required">Bus number is required</div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group col-sm-6 col-md-6 mt-2">
+              <button type="submit" class="btn btn-info">Submit
+              </button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="reset" class="btn btn-danger"
+                      (click)="onCancel()">Cancel
+              </button>
+            </div>
+          </form>
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,73 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12 overflow-fix">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">New Academic Session</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="academicSessionForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Session Name: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="sessionName" class="form-control input-md"
+                     [ngClass]="{ 'is-invalid': submitted && f.sessionName.errors }" autofocus/>
+              <div *ngIf="submitted && f.sessionName.errors" class="invalid-feedback">
+                <div *ngIf="f.sessionName.errors.required">Session name is required</div>
+              </div>
+            </div>
+
+            <div class="row col-sm-6 col-md-6 ml-1">
+              <div class="form-group mr-5">
+                <label class="control-label">Start Date(AD): <span
+                  class="text-danger">*</span></label><br/>
+                <nz-date-picker formControlName="sessionStartDate"
+                                (ngModelChange)="onStartDateChange($event)"
+                                class="form-control" [nzSize]="_size"></nz-date-picker>
+                <div *ngIf="submitted && f.sessionStartDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.sessionStartDate.errors.required">Start date is required</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">End Date(AD): <span
+                  class="text-danger">*</span></label><br/>
+                <nz-date-picker formControlName="sessionEndDate"
+                                (ngModelChange)="onEndDateChange($event)"
+                                class="form-control" [nzSize]="_size"></nz-date-picker>
+                <div *ngIf="submitted && f.sessionEndDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.sessionEndDate.errors.required">End date is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Current Session:</label><br/>
+              <nz-radio-group [(ngModel)]="_currentSession" formControlName="currentSession">
+                <label nz-radio nzValue="Yes">Yes</label>
+                <label nz-radio nzValue="No">No</label>
+              </nz-radio-group>
+            </div>
+
+            <div class="form-group col-sm-3 col-md-3 mt-4">
+              <button type="submit" class="btn btn-info mr-3">
+                Submit
+              </button>
+              <button type="reset" class="btn btn-danger" (click)="onCancel()">
+                Cancel
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>

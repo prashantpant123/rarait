@@ -1,0 +1,27 @@
+
+allprojects {
+    group = 'com.rarait.education'
+}
+
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'java'
+
+war {
+    baseName = 'ROOT'
+}
+
+wrapper {
+    gradleVersion = '4.10'
+//    distributionType = Wrapper.DistributionType.ALL
+}
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
+}
+
+stage.dependsOn(copyToLib)

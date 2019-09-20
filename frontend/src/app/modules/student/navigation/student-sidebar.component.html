@@ -1,0 +1,13 @@
+<nav class="sidebar pt-3" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="list-group">
+
+    <a [routerLink]="['school']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-university"></i>&nbsp;
+      <span>{{ 'School' | translate }}</span>
+    </a>
+
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+      <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+    </div>
+  </div>
+</nav>

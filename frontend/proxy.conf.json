@@ -1,0 +1,7 @@
+{
+  "/api": {
+//    "target": "https://rara-education.herokuapp.com",
+    "target": "http://localhost:8080",
+    "secure": false
+  }
+}

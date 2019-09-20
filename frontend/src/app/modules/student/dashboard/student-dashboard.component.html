@@ -1,0 +1,20 @@
+<div [@routerTransition]>
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8">
+      <nz-card class="dash-card" [nzLoading]="loading">
+        <a routerLink="/client/student">
+          <nz-card-meta [nzAvatar]="totalNotificationTemplate" nzTitle="{{totalNotification}}"
+                        nzDescription="Number of students"></nz-card-meta>
+        </a>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #totalNotificationTemplate>
+  <nz-avatar nzSrc="https://img.icons8.com/ultraviolet/40/000000/student-male.png"></nz-avatar>
+</ng-template>
+
+<ng-template #actionEllipsis>
+  <i nz-icon type="ellipsis"></i>
+</ng-template>

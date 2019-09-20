@@ -1,0 +1,91 @@
+
+<div id="button">
+  <br/>
+  <div class="form-group-sm row">
+  <button  class="btn btn-primary btn-sm float-right" (click)="generatePdf()" value="">Download PDF &nbsp;</button>
+    <button  class="btn btn-primary btn-sm float-right"  value="" onclick="printStaffDetails()">Print
+    </button>
+  </div>
+</div>
+
+<div id="profile">
+  <profile-page
+    [logo]="logoPath"
+    [schoolTitle]="schoolTitle"
+    [image_path]="imagePath"
+    [contents]="contents"
+    [title]="title"
+    [route]="route"
+    [address]="address"
+    [landline]="landline">
+  </profile-page>
+</div>
+
+
+<div id="print" style="display:none;">
+  <div id="section-to-print">
+    <div class="page">
+      <div class="mainDiv">
+        <div class="header">
+          <table>
+            <tr>
+              <th>
+                <div>
+                  <div class="logo"><img src="{{logoPath}}" height="90" width="95">
+                  </div>
+                  <div class="title">
+                    {{schoolTitle}}<br>
+                    {{address}}<br>
+                    {{landline}}
+                  </div>
+                </div>
+              </th>
+              <td>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+      <div class="subTitle">STUDENT PROFILE</div>
+
+      <div class="tableDiv">
+        <div class="banner">
+          <div class="wrapper">
+            <div style="position:absolute; width:100%">
+              <img class="background" src="{{logoPath}}" width=150 height=150>
+            </div>
+            <div style="position:absolute" class="imageDiv">
+              <table>
+                <td colspan="4">
+                  <div class="card">
+                    <img src="{{imagePath}}" alt="Norway" style="width:100%">
+                    <div class="container">
+                      <p class="name">{{title}}</p>
+                    </div>
+                  </div>
+                </td>
+              </table>
+            </div>
+            <div class="details">
+                       <div class="col-lg-9 profile-border-print">
+                      <div *ngFor="let content of contents" class="col-lg-12">
+                        <div *ngIf="content.text !== null">
+                          <div class="row">
+                            <label class="profile-label-print">{{content.label}} :</label>
+                            <input type="text" readonly class="profile-value-print" value="{{content.text}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        Date:2019-29-05
+      </div>
+
+    </div>
+  </div>
+</div>

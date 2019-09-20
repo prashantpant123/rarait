@@ -1,0 +1,71 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Staffs</label>
+            <div class="col-sm-2">
+              <nz-select style="width: 200px;" class="form-control"
+                         [(ngModel)]="staffValue" nzAllowClear nzPlaceHolder="Select Staff"
+                         (ngModelChange)="staffTypeSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Staff"></nz-option>
+                <nz-option *ngFor="let staff of staffTypes" nzValue="{{staff.id}}" nzLabel="{{staff.name}}"></nz-option>
+              </nz-select>
+            </div>
+
+            <div class="col-lg-8 float-right">
+              <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>&nbsp;
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="staffList"
+                    [nzPageSize]="2"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Full Name</th>
+              <th>Position</th>
+              <th>Address</th>
+              <th>Contact</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let staff of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{staff.full_name}}</td>
+              <td>{{staff.type}}</td>
+              <td>{{staff.current_address}}</td>
+              <td>{{staff.primary_contact}}</td>
+              <td>
+                <a nz-tooltip routerLink="/client/staff/{{staff.id}}/detail"
+                   class="mr-1" nzPlacement="bottom" nzTitle="View '{{staff.full_name}}' detail">
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                </a>&nbsp;
+                <!--<a href="createPdf"><img _ngcontent-c3="" height="28" src="assets/images/pdf.png" width="28"></a>-->
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

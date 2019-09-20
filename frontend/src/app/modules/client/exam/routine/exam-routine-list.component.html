@@ -1,0 +1,120 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Exam Routine</label>
+            <div class="mr-3">
+              <nz-select style="width: 250px;" class="form-control"
+                         [(ngModel)]="examValue" nzAllowClear nzPlaceHolder="Select Exam"
+                         (ngModelChange)="examSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Exam"></nz-option>
+                <nz-option *ngFor="let exam of examList" nzValue="{{exam.id}}" nzLabel="{{exam.name}}"></nz-option>
+              </nz-select>
+            </div>
+            <nz-select style="width: 200px;" class="form-control"
+                       [(ngModel)]="classValue" nzAllowClear nzPlaceHolder="Select Class"
+                       (ngModelChange)="classSelectEvent($event)">
+              <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+              <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="examRoutineList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Subject</th>
+              <th>Full Marks - Pass Marks</th>
+              <th>Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Remarks</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let routine of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{routine.subject}}</td>
+              <td><input style="width: 100px;" nz-input nzSize="default"
+                         [(ngModel)]="cacheData[routine.subject_id].data.full_mark"/>
+                -
+                <input style="width: 100px;" nz-input nzSize="default"
+                       [(ngModel)]="cacheData[routine.subject_id].data.pass_mark"/>
+              </td>
+              <td>
+                <nz-date-picker [(ngModel)]="cacheData[routine.subject_id].data.exam_date"
+                                (ngModelChange)="onExamDateChange($event)"></nz-date-picker>
+              </td>
+              <td>
+                <nz-time-picker [(ngModel)]="cacheData[routine.subject_id].data.start_time"
+                                nzFormat="HH:mm" [nzMinuteStep]="10" [nzAddOn]="startTPButton"
+                                #startTimePicker></nz-time-picker>
+                <ng-template #startTPButton>
+                  <button nz-button nzSize="small" nzType="primary" (click)="startTimePicker.close()">Ok</button>
+                </ng-template>
+              </td>
+              <td>
+                <nz-time-picker [(ngModel)]="cacheData[routine.subject_id].data.end_time"
+                                nzFormat="HH:mm" [nzMinuteStep]="10" [nzAddOn]="endTPButton"
+                                #endTimePicker></nz-time-picker>
+                <ng-template #endTPButton>
+                  <button nz-button nzSize="small" nzType="primary" (click)="endTimePicker.close()">Ok</button>
+                </ng-template>
+              </td>
+              <td>
+                <!--<div *ngIf="routine.id !== 0">-->
+                <!--{{routine.remarks}}-->
+                <!--</div>-->
+                <!--<div *ngIf="routine.id === 0">-->
+                <input nz-input nzSize="default" [(ngModel)]="cacheData[routine.subject_id].data.remarks"/>
+                <!--</div>-->
+              </td>
+              <td>
+                <div *ngIf="routine.id !== 0">
+                  <a nz-tooltip routerLink="/client/exam/routine/{{routine.id}}/detail"
+                     class="mr-1" nzPlacement="bottom" nzTitle="View '{{routine.subject}}' detail">
+                    <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+          <div *ngIf="examRoutineList?.length > 0" class="form-group col-sm-6 col-md-6 float-left">
+            <button nz-button nzType="primary" [nzLoading]="submitting" (click)="onSubmit()" class="mr-2">
+              <i nz-icon type="upload" theme="outline"></i>Update
+            </button>
+            <button nz-button nzType="danger"><i nz-icon type="close-circle" theme="outline"></i>Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="modalVisible"
+  nzWrapClassName="vertical-center-modal"
+  nzTitle="Please confirm"
+  (nzOnCancel)="modalCancel()"
+  (nzOnOk)="modalConfirm()"
+  [nzOkLoading]="isOkLoading">
+  <p>Are you sure you want to change the exam routine?</p>
+</nz-modal>

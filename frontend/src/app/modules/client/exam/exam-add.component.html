@@ -1,0 +1,82 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add Exam</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="examAddForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Academic Session: <span
+                class="text-danger">*</span></label>
+              <select (change)="academicSessionEvent($event.target.value,
+              $event.target.options[$event.target.options.selectedIndex].text)"
+                      class="form-control">
+                <option selected value="0">Select</option>
+                <option *ngFor="let session of academicSessionList" value="{{session.id}}">{{session.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Exam Term: <span
+                class="text-danger">*</span></label>
+              <select (change)="examTermSessionEvent($event.target.value,
+              $event.target.options[$event.target.options.selectedIndex].text)"
+                      class="form-control">
+                <option selected value="0">Select</option>
+                <option *ngFor="let term of examTermList" value="{{term.id}}">{{term.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Start Date - End Date (AD): <span
+                class="text-danger">*</span></label><br/>
+              <nz-range-picker
+                formControlName="examDateRange"
+                [(ngModel)]="dateRange"
+                (ngModelChange)="onDateRangeChange($event)"
+                [nzSize]="_size"
+                [ngClass]="{ 'is-invalid': submitted && f.examDateRange.errors }">
+              </nz-range-picker>
+
+              <div *ngIf="submitted && f.examDateRange.errors" class="invalid-feedback">
+                <div *ngIf="f.examDateRange.errors.required">Date range is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Weightage %: <span
+                class="text-danger">*</span></label>
+              <input type="number" formControlName="weightage" class="form-control input-md"
+                     [ngClass]="{ 'is-invalid': submitted && f.weightage.errors }"/>
+              <div *ngIf="submitted && f.weightage.errors" class="invalid-feedback">
+                <div *ngIf="f.weightage.errors.required">Weightage is required</div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="form-group col-sm-6 col-md-6 mt-4">
+              <button type="submit" class="btn btn-info mr-3">Submit
+              </button>
+              <button type="reset" class="btn btn-danger"
+                      (click)="onCancel()">Cancel
+              </button>
+            </div>
+
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Please confirm following details: </h4>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let list of displayList">
+      <div *ngIf="list.text !==''" class="form-group">
+        <label class="control-label col-sm-6" style="color: grey">{{list.text}}:&nbsp;&nbsp;</label>
+        <div class="form-control-static col-sm-6">
+          <label class="font-weight-bold">{{list.value}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer float-left">
+    <button type="button" class="btn btn-info mr-3" (click)="accept()">{{ btnOkText }}</button>
+    <button type="button" class="btn btn-danger" (click)="dismiss()">{{ btnCancelText }}</button>
+  </div>
+</div>

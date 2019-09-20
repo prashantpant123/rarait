@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mb-3">
+  <a class="navbar-brand" routerLink="/client/dashboard">
+    <nz-avatar [nzSize]="'large'" nzIcon="user" nzSrc="{{logo}}" class="mr-1pu"></nz-avatar>
+    {{name}}
+  </a>
+  <button class="navbar-toggler" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse">
+
+    <!--Search bar start-->
+    <!--<form class="form-inline">-->
+    <!--<input class="sr-input sr-input-lg" type="search" placeholder="Search" aria-label="Search">-->
+    <!--<button class="sr-btn-submit" type="submit">-->
+    <!--<img src="assets/images/search-solid.svg" width="28" height="28">-->
+    <!--</button>-->
+    <!--</form>-->
+    <!--Search bar end-->
+
+    <ul class="navbar-nav ml-auto nav-right-margin">
+
+      <li class="nav-item dropdown" ngbDropdown>
+      <li class="nav-item dropdown" ngbDropdown>
+        <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+          <img src="assets/images/language-solid.svg" width="28" height="28">
+          <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu dropdown-menu-left" style="margin-left: -100px;" ngbDropdownMenu>
+          <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('en')">
+            {{ 'English' | translate }}
+          </a>
+          <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('np')">
+            {{ 'Nepali' | translate }}
+          </a>
+
+        </div>
+      </li>
+
+      <li class="nav-item dropdown" ngbDropdown>
+        <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+          <img src="assets/images/user-circle-regular.svg" width="28" height="28">
+          <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu dropdown-menu-left" style="margin-left: -100px;" ngbDropdownMenu>
+          <a class="dropdown-item" href="javascript:void(0)">
+            <!--<i nz-icon type="smile" theme="outline" class="mr-1"></i>-->
+            <nz-avatar nzSize="small" nzIcon="user" style="background-color:#87d068;" class="mr-1"></nz-avatar>
+            {{username}}
+          </a>
+          <a class="dropdown-item" href="javascript:void(0)">
+            <i nz-icon type="setting" theme="outline" class="mr-1"></i>
+            {{ 'Settings' | translate }}
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="onLoggedout()">
+            <i nz-icon type="poweroff" theme="outline" class="mr-1"></i>
+            {{ 'Log Out' | translate }}
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

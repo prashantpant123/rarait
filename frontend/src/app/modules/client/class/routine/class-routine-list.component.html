@@ -1,0 +1,92 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Daily Routine</label>
+            <div class="col-sm-2">
+              <nz-select style="width: 200px;" class="form-control"
+                         [(ngModel)]="classId" nzAllowClear nzPlaceHolder="Select Class"
+                         (ngModelChange)="classSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+                <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="subjectList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th nzWidth="75px">#</th>
+              <th colspan="2">Period</th>
+              <th>Sunday</th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+            </tr>
+            <tr>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let subject of basicTable.data; index as i">
+              <td>{{1+1}}</td>
+              <td>
+                <nz-time-picker [(ngModel)]="cacheData[routine.subject_id].data.start_time"
+                                nzFormat="HH:mm" [nzMinuteStep]="5" [nzAddOn]="startTPButton"
+                                #startTimePicker></nz-time-picker>
+                <ng-template #startTPButton>
+                  <button nz-button nzSize="small" nzType="primary" (click)="startTimePicker.close()">Ok</button>
+                </ng-template>
+              </td>
+              <td>
+                <nz-time-picker [(ngModel)]="cacheData[routine.subject_id].data.end_time"
+                                nzFormat="HH:mm" [nzMinuteStep]="5" [nzAddOn]="endTPButton"
+                                #endTimePicker></nz-time-picker>
+                <ng-template #endTPButton>
+                  <button nz-button nzSize="small" nzType="primary" (click)="endTimePicker.close()">Ok</button>
+                </ng-template>
+              </td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-group col-sm-3 col-md-3">
+  <select class="form-control"
+  <!--(change)="subjectSelectEvent($event.target.value,-->
+  <!--$event.target.options[$event.target.options.selectedIndex].text)"-->
+  >
+    <option value="0">Subject</option>
+    <option *ngFor="let subject of subjectList" value="{{subject.id}}">{{subject.name}}</option>
+  </select>
+</div>

@@ -1,0 +1,36 @@
+<ng-template #notificationServer>
+  <div class="ant-notification-notice-content">
+    <div class="ant-notification-notice-with-icon">
+          <span class="ant-notification-notice-icon-info">
+            <i nz-icon type="smile" style="color: rgb(16, 142, 233);"></i>
+          </span>
+      <div class="ant-notification-notice-message">{{title}}</div>
+      <div class="ant-notification-notice-description">{{content}}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notificationSuccess>
+  <div class="ant-notification-notice-content">
+    <div class="ant-notification-notice-with-icon">
+          <span class="ant-notification-notice-icon-success">
+            <i nz-icon type="smile" style="color: rgb(16, 142, 233);"></i>
+          </span>
+      <div class="ant-notification-notice-description">{{content}}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #notificationFailed>
+  <div class="ant-notification-notice-content">
+    <div class="ant-notification-notice-with-icon">
+      <span class="ant-notification-notice-icon-error">
+        <i nz-icon type="smile" style="color: rgb(16, 142, 233);"></i>
+      </span>
+      <div class="ant-notification-notice-description">{{content}}
+      </div>
+    </div>
+  </div>
+</ng-template>

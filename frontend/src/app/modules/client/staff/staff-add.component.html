@@ -1,0 +1,244 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add New Staff</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="staffCreateForm" (ngSubmit)="onSubmit()">
+            <div class="form-col">
+              <div class="form-row">
+                <nz-divider nzText="General Information" nzOrientation="left"></nz-divider>
+
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">First Name: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="staffFirstName" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.staffFirstName.errors }" autofocus/>
+                  <div *ngIf="submitted && f.staffFirstName.errors" class="invalid-feedback">
+                    <div *ngIf="f.staffFirstName.errors.required">First name is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4">
+                  <label class="control-label">Last Name: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="staffLastName" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.staffLastName.errors }" autofocus/>
+                  <div *ngIf="submitted && f.staffLastName.errors" class="invalid-feedback">
+                    <div *ngIf="f.staffLastName.errors.required">Last name is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-4 col-md-4 ml-1 mr-1">
+                  <label class="control-label">Date Of Birth(AD): <span
+                    class="text-danger">*</span></label><br/>
+                  <nz-date-picker [(ngModel)]="_staffDOB" formControlName="staffDOB"
+                                  (ngModelChange)="staffDOBEvent($event)"
+                                  [nzSize]="_size"></nz-date-picker>
+                  <div *ngIf="submitted && f.staffDOB.errors" class="invalid-feedback">
+                    <div *ngIf="f.staffDOB.errors.required">Staff DOB is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4 mr-1">
+                  <label class="control-label">Gender: <span
+                    class="text-danger">*</span></label><br/>
+                  <nz-radio-group [(ngModel)]="_gender" formControlName="staffGender">
+                    <label nz-radio nzValue="Male">Male</label>
+                    <label nz-radio nzValue="Female">Female</label>
+                  </nz-radio-group>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-2 col-md-2 mr-1">
+                  <label class="control-label">Blood Group: </label>
+                  <select class="form-control"
+                          (change)="bloodGroupSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                    <option value="-1">Select</option>
+                    <option *ngFor="let bg of bloodGroupList" [value]="bg.id">{{bg.name}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-sm-2 col-md-2 mr-1">
+                  <label class="control-label">Marital Status: </label>
+                  <select class="form-control"
+                          (change)="maritalStatusSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                    <option value="-1">Select</option>
+                    <option *ngFor="let ms of maritalStatusList" [value]="ms.id">{{ms.name | titlecase}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Nationality: <span
+                    class="text-danger">*</span></label>
+                  <select class="form-control"
+                          (change)="nationalitySelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                    <option value="-1">Select</option>
+                    <option [value]="ng.id" *ngFor="let ng of nationalityList">{{ng.name | titlecase}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row mt-1">
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Staff ID: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="staffId" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.staffId.errors }" autofocus/>
+                  <div *ngIf="submitted && f.staffId.errors" class="invalid-feedback">
+                    <div *ngIf="f.staffId.errors.required">First name is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4">
+                  <label class="control-label">Profile Picture: <span
+                    class="text-danger">*</span></label><br/>
+                  <label class="btn btn-default" style="margin-left: -12px;">
+                    <input type="file" (change)="fileSelected($event)" required>
+                  </label>
+                  <div *ngIf="selectedFile" class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                         attr.aria-valuenow="{{progress.percentage}}"
+                         aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                      {{progress.percentage}}%
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <nz-divider nzText="Address" nzOrientation="left"></nz-divider>
+
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Current Address: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="currentAddress" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.currentAddress.errors }"/>
+                  <div *ngIf="submitted && f.currentAddress.errors" class="invalid-feedback">
+                    <div *ngIf="f.currentAddress.errors.required">Current address is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4">
+                  <label class="control-label">Permanent Address: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="permanentAddress" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.permanentAddress.errors }"/>
+                  <div *ngIf="submitted && f.permanentAddress.errors" class="invalid-feedback">
+                    <div *ngIf="f.permanentAddress.errors.required">Permanent address is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <nz-divider nzText="Contact" nzOrientation="left"></nz-divider>
+
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Primary Contact: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="primaryContact" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.primaryContact.errors }"/>
+                  <div *ngIf="submitted && f.primaryContact.errors" class="invalid-feedback">
+                    <div *ngIf="f.primaryContact.errors.required">Primary contact is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4">
+                  <label class="control-label">Secondary Contact: </label>
+                  <input type="text" formControlName="secondaryContact" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.secondaryContact.errors }"/>
+                  <div *ngIf="submitted && f.secondaryContact.errors" class="invalid-feedback">
+                    <div *ngIf="f.secondaryContact.errors.required">Secondary contact is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <nz-divider nzText="Position" nzOrientation="left"></nz-divider>
+
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Role: <span
+                    class="text-danger">*</span></label>
+                  <select class="form-control"
+                          (change)="staffTypeSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                    <option value="-1">Select</option>
+                    <option *ngFor="let type of staffTypes" [value]="type.id">{{type.name | titlecase}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-4">
+                  <label class="control-label">Designation: </label>
+                  <input type="text" formControlName="designation" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.designation.errors }"/>
+                  <div *ngIf="submitted && f.designation.errors" class="invalid-feedback">
+                    <div *ngIf="f.designation.errors.required">Designation is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Qualification: <span
+                    class="text-danger">*</span></label>
+                  <input type="text" formControlName="qualification" class="form-control input-md"
+                         [ngClass]="{ 'is-invalid': submitted && f.qualification.errors }"/>
+                  <div *ngIf="submitted && f.qualification.errors" class="invalid-feedback">
+                    <div *ngIf="f.qualification.errors.required">Qualification is required</div>
+                  </div>
+                </div>
+
+                <div class="form-group ml-1">
+                  <label class="control-label">Joining Date(AD): <span
+                    class="text-danger">*</span></label><br/>
+                  <nz-date-picker [(ngModel)]="_joiningDate" formControlName="joiningDate"
+                                  (ngModelChange)="joiningDateEvent($event)"
+                                  [nzSize]="_size"></nz-date-picker>
+                  <div *ngIf="submitted && f.joiningDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.joiningDate.errors.required">Joining date is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-4 col-md-4 mr-3">
+                  <label class="control-label">Experience Sumamry: </label>
+                  <textarea rows="5" cols="50" formControlName="experienceSummary" class="form-control input-md"
+                            [ngClass]="{ 'is-invalid': submitted && f.experienceSummary.errors }">
+                  </textarea>
+                </div>
+
+
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="form-row">
+                <div class="form-group col-sm-3 col-md-3 mt-3">
+                  <button type="submit" class="btn btn-info">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="reset" class="btn btn-danger" (click)="onCancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

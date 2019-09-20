@@ -1,0 +1,169 @@
+spring:
+  profiles:
+    active: "uat"
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 5KB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: application/json,text/html,text/css,text/javascript,application/javascript
+
+session:
+  timeout: 30
+
+email:
+  template: template
+  host: http://gmail.com
+  sender: Demo
+  senderAddress: donotreply@school.com
+
+---
+
+spring:
+  profiles: dev
+  jpa:
+      name: education
+      database: MYSQL
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql: true
+      generate-ddl: true
+      hibernate:
+       ddl-auto: update
+       globally_quoted_identifiers: true
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/education?verifyServerCertificate=false&useSSL=false
+  username: root
+  password: test
+  maxPool: 10
+  maxIdle: 4
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    org.apache.http.wire: INFO
+    org.springframework.data: INFO
+    org.springframework.security: INFO
+
+pool:
+  async-size: 10
+  queue-size: 10
+  max-pool-size: 25
+
+jwt:
+  secret: school@Test#Token
+  expiration: 900000
+
+file:
+  logo: /home/prajin/files/institute/logo
+  staffPicture: /home/prajin/files/staff/picture
+  staffDocument: /home/prajin/files/staff/document
+  studentPicture: /home/prajin/files/student/picture
+  studentDocument: /home/prajin/files/student/document
+
+domain-url: http://localhost:8080
+
+---
+
+spring:
+  profiles: uat
+  jpa:
+      name: education
+      database: H2
+      database-platform: org.hibernate.dialect.H2Dialect
+      show-sql: true
+      generate-ddl: true
+      hibernate:
+       ddl-auto: none
+       globally_quoted_identifiers: true
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+datasource:
+  driverClassName: org.h2.Driver
+  url: jdbc:h2:file:~/education;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+  username: sa
+  password:
+  maxPool: 20
+  maxIdle: 5
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    root: INFO
+    org.apache.http.wire: WARN
+    org.springframework.data: WARN
+
+pool:
+  async-size: 25
+  queue-size: 25
+  max-pool-size: 50
+
+jwt:
+  secret: school@Uat#Token
+  expiration: 180
+
+file:
+  logo: /home/prajin/files/institute/logo
+  staffPicture: /home/prajin/files/staff/picture
+  staffDocument: /home/prajin/files/staff/document
+  studentPicture: /home/prajin/files/student/picture
+  studentDocument: /home/prajin/files/student/document
+
+domain-url: http://localhost:8080
+
+---
+
+spring:
+  profiles: prod
+
+datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/education?verifyServerCertificate=false&useSSL=false
+  username: education_user
+  password: eDucation@1234
+  maxPool: 50
+  maxIdle: 5
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    root: INFO
+    org.apache.http.wire: WARN
+    org.springframework.data: WARN
+
+pool:
+  async-size: 30
+  queue-size: 30
+  max-pool-size: 50
+
+jwt:
+  secret: education@prod#Token
+  expiration: 9900000
+
+file:
+  logo: /home/education/uploaded_document/institute/logo
+  staffPicture: /home/education/uploaded_document/staff/picture
+  staffDocument: /home/education/uploaded_document/staff/document
+  studentPicture: /home/education/uploaded_document/student/picture
+  studentDocument: /home/education/uploaded_document/student/document
+
+domain-url: http://webvidhyalaya.com

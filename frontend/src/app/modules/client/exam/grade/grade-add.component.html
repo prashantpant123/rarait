@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add Grade</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="gradeAddForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Grade Value: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="gradeValue" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.gradeValue.errors }"/>
+              <div *ngIf="submitted && f.gradeValue.errors" class="invalid-feedback">
+                <div *ngIf="f.gradeValue.errors.required">Grade value is required</div>
+              </div>
+            </div>
+
+            <div class="form-row ml-2">
+              <div class="form-group col-sm-2 col-md-2 mr-5">
+                <label>Low Mark: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="lowMark" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.lowMark.errors }"/>
+                <div *ngIf="submitted && f.lowMark.errors" class="invalid-feedback">
+                  <div *ngIf="f.lowMark.errors.required">Low value of mark is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-2 col-md-2 ml-5">
+                <label>High Mark: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="highMark" class="form-control"
+                       [ngClass]="{ 'is-invalid': submitted && f.highMark.errors }"/>
+                <div *ngIf="submitted && f.highMark.errors" class="invalid-feedback">
+                  <div *ngIf="f.highMark.errors.required">High value of mark is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="form-group col-sm-6 col-md-6 mt-4">
+              <button type="submit"class="btn btn-info mr-3">Submit
+              </button>
+              <button type="reset" class="btn btn-danger"
+                      (click)="onCancel()">Cancel
+              </button>
+            </div>
+
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

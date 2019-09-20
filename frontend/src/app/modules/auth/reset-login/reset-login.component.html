@@ -1,0 +1,42 @@
+<div [@routerTransition]>
+  <div class="login-form">
+    <form [formGroup]="recoverLoginForm" (ngSubmit)="onSubmit()">
+      <div class="avatar">
+        <img src="assets/images/password-unlock.svg">
+      </div>
+      <h4 class="modal-title">Recover Login</h4>
+      <div class="form-group">
+        <input type="text" formControlName="recoverLoginId" class="form-control" id="recoverLoginId"
+               placeholder="{{ 'Login ID' | translate }}">
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="newPassword" class="form-control" id="newPassword"
+               placeholder="{{ 'New Password' | translate }}" required
+               [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }">
+        <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback">
+          <div *ngIf="f.newPassword.errors.minLength">Login Id is short</div>
+          <div *ngIf="f.newPassword.errors.maxLength">Login Id is long</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input type="text" formControlName="confirmNewPassword" class="form-control" id="confirmNewPassword"
+               placeholder="{{ 'Confirm New Password' | translate }}" required
+               [ngClass]="{ 'is-invalid': submitted && f.confirmNewPassword.errors }">
+        <div *ngIf="submitted && f.confirmNewPassword.errors" class="invalid-feedback">
+          <div *ngIf="f.confirmNewPassword.errors.minLength">Login Id is short</div>
+          <div *ngIf="f.confirmNewPassword.errors.maxLength">Login Id is long</div>
+        </div>
+      </div>
+
+      <div class="form-group small clearfix">
+        <a routerLink="/login" class="forgot-link">Continue with login ?</a>
+      </div>
+
+      <button id="form_submit" type="submit" class="btn btn-primary btn-block btn-lg"
+              [disabled]="!recoverLoginForm.valid">Submit <i class="ti-arrow-right"></i>
+      </button>
+
+    </form>
+  </div>
+</div>

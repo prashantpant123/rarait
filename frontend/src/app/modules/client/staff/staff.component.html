@@ -1,0 +1,219 @@
+
+<div id="button">
+  <br/>
+  <button  class="btn btn-primary btn-sm float-right" (click)="generatePdf()" value="">Download PDF &nbsp;</button>
+  <button  class="btn btn-primary btn-sm float-right"  value="" onclick="printStaffDetails()">Print
+  </button>
+</div>
+<div id="profile">
+  <profile-page
+    [logo]="logoPath"
+    [schoolTitle]="schoolTitle"
+    [image_path]="imagePath"
+    [contents]="contents"
+    [title]="title"
+    [route]="route"
+    [address]="address"
+    [landline]="landline">
+  </profile-page>
+</div>
+<div id="print" style="display: none">
+  <div id="section-to-print">
+    <div class="page">
+      <div class="mainDiv">
+        <div class="header">
+          <table>
+            <tr>
+              <th>
+                <div>
+                  <div class="logo"><img src="{{logoPath}}" height="90" width="95"/>
+                  </div>
+                  <div class="title">
+                    {{schoolTitle}}<br>
+                    {{address}}<br>
+                    {{landline}}
+                  </div>
+                </div>
+              </th>
+              <td>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+      <div class="subTitle">STAFF PROFILE</div>
+
+      <div class="tableDiv">
+        <div class="banner">
+          <div class="wrapper">
+            <div style="position:absolute; width:100%">
+              <img class="background" src="{{logoPath}}" width=150 height=150>
+            </div>
+            <div class="imageDiv">
+              <table>
+                <td colspan="4">
+                  <div class="card">
+                    <img src="{{imagePath}}" alt="Norway" style="width:100%"/>
+                    <div class="container">
+                      <p class="name">{{title}}</p>
+                    </div>
+                  </div>
+                </td>
+              </table>
+            </div>
+            <div style="position: absolute" class="details">
+                    <div class="col-lg-10 profile-border-print">
+                      <div *ngFor="let content of contents" class="col-lg-12">
+                        <div *ngIf="content.text !== null">
+                          <div class="row">
+                            <label class="profile-label-print">{{content.label}} :</label>
+                            <input type="text" readonly class="profile-value-print" value="{{content.text}}"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Date Of Birth(BS):</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${dobBs}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Date Of Birth(AD):</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${dob}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Nationality:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${nationality}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Blood Group:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${bloodGroup}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Marital Status:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick">Single</td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Current Address:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${currentAddress}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Permanent Address:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${permanentAddress}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Primary Contact:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${primaryContact}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Secondary Contact:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${secondaryContact}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Role:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${role}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Designation:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${designation}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Joining Date:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${joiningDate}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+                <!--<tr>-->
+                  <!--<td colspan="7"></td>-->
+                  <!--<td class="label">Qualification:</td>-->
+                  <!--<td></td>-->
+                  <!--<td></td>-->
+                  <!--<td colspan="2" class="thick" th:text="${qualification}"></td>-->
+                  <!--<td></td>-->
+                <!--</tr>-->
+
+      <div class="footer">
+        Date:6/4/2019
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div id="bottom">-->
+  <!--<br/>-->
+  <!--<button (click)="generatePdf()" value="generatePdf">PDF</button>-->
+  <!--<br/>-->
+  <!--<button onclick="printStaffDetails()">-->
+    <!--Print Staff-->
+  <!--</button>-->
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+

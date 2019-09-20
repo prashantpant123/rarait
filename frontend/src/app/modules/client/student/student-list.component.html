@@ -1,0 +1,95 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Students</label>
+            <div class="col-sm-2">
+              <nz-select style="width: 200px;" class="form-control"
+                         [(ngModel)]="classValue" nzAllowClear nzPlaceHolder="Select Class"
+                         (ngModelChange)="classSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+                <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-lg-8 float-right">
+              <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="studentList"
+                    [nzPageSize]="2"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead (nzSortChange)="sort($event)" nzSingleSort>
+            <tr>
+              <th nzShowSort nzSortKey="roll_number" nzWidth="75px">Roll No</th>
+              <th nzCustomFilter>Name
+                <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #dropdown>
+                  <i nz-icon
+                     nzType="search"
+                     class="ant-table-filter-icon"
+                     [class.ant-table-filter-open]="dropdown.nzVisible"
+                     nz-dropdown></i>
+                  <div class="search-box">
+                    <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue"/>
+                    <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+                      Search
+                    </button>
+                    <button nz-button nzSize="small" (click)="reset()">Reset</button>
+                  </div>
+                </nz-dropdown>
+              </th>
+              <th nzCustomFilter>Registration ID
+                <nz-dropdown nzTrigger="click" nzPlacement="bottomRight" [nzClickHide]="false" nzTableFilter #regDropdown>
+                  <i nz-icon
+                     nzType="search"
+                     class="ant-table-filter-icon"
+                     [class.ant-table-filter-open]="regDropdown.nzVisible"
+                     nz-dropdown></i>
+                  <div class="search-box">
+                    <input type="text" nz-input placeholder="Search by registration no." [(ngModel)]="searchRegistrationValue"/>
+                    <button nz-button nzSize="small" nzType="primary" (click)="searchRegistrationNo()" class="search-button">
+                      Search
+                    </button>
+                    <button nz-button nzSize="small" (click)="reset()">Reset</button>
+                  </div>
+                </nz-dropdown>
+              </th>
+              <th>Class</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let student of basicTable.data">
+              <td>{{student.roll_number}}</td>
+              <td>{{student.first_name}} {{student.last_name}}</td>
+              <td>{{student.registration_id}}</td>
+              <td>{{student.level}}</td>
+              <td>
+                <a nz-tooltip routerLink="/client/student/{{student.id}}/detail"
+                   class="mr-1" nzPlacement="bottom"
+                   nzTitle="View '{{student.first_name}} {{student.last_name}}' detail">
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+
+<div [@routerTransition]>
+   <breadcrumb [links]="route"></breadcrumb>
+  <nz-card class="col-lg-12">
+    <div align="center">
+      <img alt="school logo" src="{{logo}}"/>
+      <nz-card-meta nzTitle="{{schoolTitle}}"></nz-card-meta>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-lg-3">
+        <nz-card nzHoverable style="width:240px" [nzCover]="profileTemplate">
+          <nz-card-meta nzTitle="{{title}}"></nz-card-meta>
+        </nz-card>
+        <ng-template #profileTemplate>
+          <img alt="profile logo" src="{{image_path}}"/>
+        </ng-template>
+      </div>
+
+      <div class="col-lg-9 profile-border">
+        <div *ngFor="let content of contents" class="col-lg-12">
+          <div *ngIf="content.text !== null">
+            <div class="row">
+              <label class="profile-label">{{content.label}} :</label>
+              <input type="text" readonly class="profile-value" value="{{content.text}}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-card>
+</div>
+

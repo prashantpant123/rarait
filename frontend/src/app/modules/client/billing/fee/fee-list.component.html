@@ -1,0 +1,56 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Fees</label>
+          <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>&nbsp;
+        </div>
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="feeList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th nzWidth="75px">#</th>
+              <th>Class</th>
+              <th>Title</th>
+              <th>Amount(NPR)</th>
+              <th>Taxable Applicable</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let fee of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{fee.class}}</td>
+              <td>{{fee.title}}</td>
+              <td>{{fee.amount}}</td>
+              <td>
+                <span *ngIf="fee.taxable === true">Yes</span>
+                <span *ngIf="fee.taxable === false">No</span>
+              </td>
+              <td>
+                <a routerLink="/client/billing/fee/{{fee.id}}/detail"
+                   class="mr-1" placement="bottom" ngbTooltip="View '{{fee.title}}' detail">
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

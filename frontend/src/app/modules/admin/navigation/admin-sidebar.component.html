@@ -1,0 +1,13 @@
+<nav class="sidebar pt-3" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="list-group">
+
+    <a [routerLink]="['school']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="bank" theme="outline" class="mr-1"></i>
+      <span>School</span>
+    </a>
+
+    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+      <i nz-icon type="double-left" theme="outline" class="mr-1"></i>
+    </div>
+  </div>
+</nav>

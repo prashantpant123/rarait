@@ -1,0 +1,35 @@
+<div [@routerTransition]>
+  <div class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="avatar">
+        <img src="assets/images/webvidhyalaya_logo_sm.png">
+        <!--<img src="assets/images/user-circle-regular.svg">-->
+      </div>
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+      <h4 class="modal-title">Webvidhyalaya</h4>
+      <div class="form-group">
+        <input type="text" formControlName="username" class="form-control" id="username"
+               placeholder="{{ 'Email' | translate }}"
+               [ngClass]="{ 'is-invalid': submitted && f.username.errors }" autocomplete="false" autofocus>
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+          <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="password" formControlName="password" class="form-control" id="password"
+               placeholder="{{ 'Password' | translate }}"
+               [ngClass]="{ 'is-invalid': submitted && f.password.errors }" autocomplete="false">
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+      </div>
+      <div class="form-group small clearfix">
+        <label class="checkbox-inline"><input type="checkbox"> Remember me</label>
+        <a routerLink="/forgot-password" class="forgot-link">Forgot Password?</a>
+      </div>
+      <input type="submit" class="btn btn-primary btn-block btn-lg" value="{{'Login' | translate}}">
+    </form>
+    <div class="text-center small">Copyright &#169; 2019, RaraIT</div>
+  </div>
+</div>

@@ -1,0 +1,234 @@
+<div [@routerTransition]>
+
+  <!--Breadcrumb start-->
+  <breadcrumb [links]="route"></breadcrumb>
+  <!--Breadcrumb end-->
+
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add New School</label></div>
+        <div class="card-body">
+
+          <form [formGroup]="schoolAddForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-row">
+              <nz-divider nzText="Basic Information" nzOrientation="left"></nz-divider>
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Name: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="schoolName" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolName.errors }" autofocus/>
+                <div *ngIf="submitted && f.schoolName.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolName.errors.required">School name is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Principal: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="schoolPrincipal" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolPrincipal.errors }"/>
+                <div *ngIf="submitted && f.schoolPrincipal.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolPrincipal.errors.required">Principal name is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Landline:</label>
+                <input type="text" formControlName="schoolLandline" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolLandline.errors }"/>
+                <div *ngIf="submitted && f.schoolLandline.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolLandline.errors.required">School landline is required</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Website:</label>
+                <input type="text" formControlName="schoolWebsite" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolWebsite.errors }"/>
+              </div>
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Address: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="schoolAddress" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolAddress.errors }"
+                       placeholder="1 Garidhara, Kathmandu Municipality, Province 3"/>
+                <div *ngIf="submitted && f.schoolAddress.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolAddress.errors.required">School address is required</div>
+                  <div *ngIf="f.schoolAddress.errors.minlength">School address is short</div>
+                  <div *ngIf="f.schoolAddress.errors.maxlength">School address is long</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-2 col-md-2">
+                <label class="control-label">Registration Code <i nz-icon
+                                                                  nz-tooltip
+                                                                  nzTitle="Registration code will be used as prefix during student enrollment/registration number"
+                                                                  type="question-circle"
+                                                                  theme="outline"></i> :
+                  <span class="text-danger">*</span>
+                </label>
+                <input type="text" formControlName="schoolRegistrationPrefix" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolRegistrationPrefix.errors }"
+                       (blur)="registrationPrefixCheck()" placeholder="PBS"/>
+                <div *ngIf="submitted && f.schoolRegistrationPrefix.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolRegistrationPrefix.errors.required">School registration code is required</div>
+                  <div *ngIf="f.schoolRegistrationPrefix.errors.minlength">School registration code length is less</div>
+                  <div *ngIf="f.schoolRegistrationPrefix.errors.maxlength">School registration code length is long</div>
+                  <div *ngIf="f.schoolRegistrationPrefix.errors.exist">School registration code already exist. Please
+                    use different code.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row mt-2">
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Logo: <span
+                  class="text-danger">*</span></label><br/>
+                <label class="btn btn-default" style="margin-left: -12px;">
+                  <input type="file" (change)="fileSelected($event)" required>
+                </label>
+                <!--</div>-->
+                <!--<div class="form-group col-sm-5 col-md-5">-->
+                <div *ngIf="selectedFile" class="progress">
+                  <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+                       attr.aria-valuenow="{{progress.percentage}}"
+                       aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                    {{progress.percentage}}%
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <nz-divider nzText="Login Credential" nzOrientation="left"></nz-divider>
+              <div class="form-group col-sm-3 col-md-3">
+                <label class="control-label">Username: <span
+                  class="text-danger">*</span></label>
+                <input type="text" formControlName="schoolUsername"
+                       class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolUsername.errors }"
+                       placeholder="Valid email id or mobile number"/>
+                <div *ngIf="submitted && f.schoolUsername.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolUsername.errors.required">Username is required</div>
+                  <div *ngIf="f.schoolUsername.errors.pattern">Invalid username</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3 col-md-3">
+                <label class="control-label">Password: <span
+                  class="text-danger">*</span></label>
+                <input type="password" formControlName="schoolUserPassword" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolUserPassword.errors }"
+                placeholder="Must be alpha numeric and at least 6 character long"/>
+                <div *ngIf="submitted && f.schoolUserPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolUserPassword.errors.required">Password is required</div>
+                  <div *ngIf="f.schoolUserPassword.errors.pattern">Invalid password.
+                    Must be at-least 6 character long and alphanumeric.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3 col-md-3">
+                <label class="control-label">Confirm Password: <span
+                  class="text-danger">*</span></label>
+                <input type="password" formControlName="schoolUserConfirmPassword" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.schoolUserConfirmPassword.errors }"/>
+                <div *ngIf="submitted && f.schoolUserConfirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.schoolUserConfirmPassword.errors.required">Confirm Password is required</div>
+                  <div *ngIf="f.schoolUserConfirmPassword.errors.mustMatch">Both passwords must match</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <nz-divider nzText="Contact Person Information" nzOrientation="left"></nz-divider>
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Full Name:</label>
+                <input type="text" formControlName="contactPersonFullname" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.contactPersonFullname.errors }"/>
+                <div *ngIf="submitted && f.contactPersonFullname.errors" class="invalid-feedback">
+                  <div *ngIf="f.contactPersonFullname.errors.required">Contact person name is required</div>
+                  <div *ngIf="f.contactPersonFullname.errors.minlength">Contact person name is short</div>
+                  <div *ngIf="f.contactPersonFullname.errors.maxlength">Contact person name is long</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Designation:</label>
+                <input type="text" formControlName="contactPersonDesignation" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.contactPersonDesignation.errors }"/>
+                <div *ngIf="submitted && f.contactPersonDesignation.errors" class="invalid-feedback">
+                  <div *ngIf="f.contactPersonDesignation.errors.required">Contact person designation is required</div>
+                  <div *ngIf="f.contactPersonDesignation.errors.minlength">Contact person designation is short</div>
+                  <div *ngIf="f.contactPersonDesignation.errors.maxlength">Contact person designation is long</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Mobile Number:</label>
+                <input type="text" formControlName="contactPersonMobileNumber" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.contactPersonMobileNumber.errors }"/>
+                <div *ngIf="submitted && f.contactPersonMobileNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.contactPersonMobileNumber.errors.required">Contact person mobile is required</div>
+                  <div *ngIf="f.contactPersonMobileNumber.errors.minlength">Contact person mobile is short</div>
+                  <div *ngIf="f.contactPersonMobileNumber.errors.maxlength">Contact person mobile is long</div>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Landline Number:</label>
+                <input type="text" formControlName="contactPersonLandline" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.contactPersonLandline.errors }"/>
+                <div *ngIf="submitted && f.contactPersonLandline.errors" class="invalid-feedback">
+                  <div *ngIf="f.contactPersonLandline.errors.required">Contact person landline is required</div>
+                  <div *ngIf="f.contactPersonLandline.errors.minlength">Contact person landline is short</div>
+                  <div *ngIf="f.contactPersonLandline.errors.maxlength">Contact person landline is long</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-5 col-md-5">
+                <label class="control-label">Email ID:</label>
+                <input type="text" formControlName="contactPersonEmailId" class="form-control input-md"
+                       [ngClass]="{ 'is-invalid': submitted && f.contactPersonEmailId.errors }"/>
+                <div *ngIf="submitted && f.contactPersonEmailId.errors" class="invalid-feedback">
+                  <div *ngIf="f.contactPersonEmailId.errors.required">Contact person email is required</div>
+                  <div *ngIf="f.contactPersonEmailId.errors.minlength">Contact person email is short</div>
+                  <div *ngIf="f.contactPersonEmailId.errors.maxlength">Contact person email is long</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-row">
+              <div class="form-group col-sm-3 col-md-3 mt-3">
+                <button type="submit" [disabled]="submitted" class="btn btn-info">Create</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="reset" class="btn btn-danger" (click)="onCancel()">
+                  Cancel
+                </button>
+              </div>
+            </div>
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

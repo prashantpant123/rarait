@@ -1,0 +1,69 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">Transport Route</div>
+        <div class="card-body">
+
+          <form [formGroup]="routeRegistrationForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label>Transport: <span
+                class="text-danger">*</span></label>
+              <select formControlName="busId" class="form-control"
+                      (change)="transportSelectEvent($event.target.value,
+                      $event.target.options[$event.target.options.selectedIndex].text)" autofocus>
+                <option value="0">Select</option>
+                <option *ngFor="let transport of transports" value="{{transport.id}}">{{transport.name}}</option>
+              </select>
+              <div *ngIf="submitted && f.busId.errors" class="invalid-feedback">
+                <div *ngIf="f.busId.errors.required">Transport must be selected</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label>Route Name: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="busRoutePath" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.busRoutePath.errors }"/>
+              <div *ngIf="submitted && f.busRoutePath.errors" class="invalid-feedback">
+                <div *ngIf="f.busRoutePath.errors.required">Bus route path is required</div>
+              </div>
+            </div>
+
+            <div class="form-row ml-2">
+              <div class="form-group col-sm-2 col-md-2">
+                <label>Pickup Time:</label><br/>
+                <nz-time-picker [(ngModel)]="pickupTime" formControlName="pickupTime"
+                                nzFormat="HH:mm" [nzMinuteStep]="10" nzSize="large"></nz-time-picker>
+              </div>
+
+              <div class="form-group col-sm-2 col-md-2">
+                <label>Drop Time:</label><br/>
+                <nz-time-picker [(ngModel)]="dropTime" formControlName="dropTime"
+                                nzFormat="HH:mm" [nzMinuteStep]="10" nzSize="large"></nz-time-picker>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group col-sm-6 col-md-6 mt-2">
+              <button type="submit" class="btn btn-info mr-3">Submit
+              </button>
+              <button type="reset" class="btn btn-danger"
+                      (click)="onCancel()">Cancel
+              </button>
+            </div>
+          </form>
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

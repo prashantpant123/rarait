@@ -1,0 +1,54 @@
+<div class="ant-col-lg-24">
+  <div class="card mb-3">
+    <div class="card-header">
+      <label class="h6 mt-1">Admin User List</label>
+      <button class="btn btn-primary btn-sm float-right fa fa-plus" (click)="openModal('admin-add-user-modal')">
+        New User
+      </button>
+    </div>
+
+    <div class="card-body table-responsive">
+      <nz-table #basicTable
+                [nzData]="userList"
+                [nzShowPagination]="_pagination"
+                [nzBordered]="true"
+                [nzFrontPagination]="false"
+                [nzLoading]="_loading"
+                [nzNoResult]="_noData"
+                [nzTotal]="_totalItem"
+                [nzPageIndex]="_currentPage"
+                (nzPageIndexChange)="onPageChange($event)">
+        <thead>
+        <tr>
+          <th nzWidth="75px">#</th>
+          <th>Name</th>
+          <th>Last Login</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let u of basicTable.data; index as i">
+          <th>{{i+1}}</th>
+          <th>{{u.username}}</th>
+          <th>{{u.last_login_date | date: 'dd-MM-yyyy HH:mm'}}</th>
+          <th>{{u.status}}</th>
+          <th>
+            <a routerLink="/admin/setting/profile/{{u.id}}"
+               class="mr-1" placement="bottom" nzTitle="View \'{{u.username}}\' detail" nz-tooltip>
+              <i nz-icon type="eye" theme="twotone" class="mr-1"></i></a>
+            <a nz-popconfirm nzTitle="Are you sure to delete '{{u.name}}' record?"
+               (nzOnConfirm)="onDeleteConfirm()" (nzOnCancel)="onDeleteCancel()">
+              <i nz-icon type="delete" theme="twotone" [nzTwotoneColor]="'#eb2f96'"></i>
+            </a>
+          </th>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+
+<ed-modal id="admin-add-user-modal">
+  <app-admin-user></app-admin-user>
+</ed-modal>

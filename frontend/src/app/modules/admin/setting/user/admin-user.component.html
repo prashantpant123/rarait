@@ -1,0 +1,65 @@
+<div class="card mb-3">
+  <div class="card-header">Add New User</div>
+  <div class="card-body">
+
+    <form [formGroup]="userAddForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-row">
+        <div class="form-group col-sm-10 col-md-10">
+          <label class="control-label">Username: <span
+            class="text-danger">*</span></label>
+          <input type="text" formControlName="adminUsername"
+                 class="form-control input-md"
+                 [ngClass]="{ 'is-invalid': submitted && f.adminUsername.errors }"/>
+          <div *ngIf="submitted && f.adminUsername.errors" class="invalid-feedback">
+            <div *ngIf="f.adminUsername.errors.required">Username is required</div>
+            <div *ngIf="f.adminUsername.errors.pattern">Invalid username</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-sm-10 col-md-10">
+          <label class="control-label">Password: <span
+            class="text-danger">*</span></label>
+          <input type="password" formControlName="adminUserPassword" class="form-control input-md"
+                 [ngClass]="{ 'is-invalid': submitted && f.adminUserPassword.errors }" maxlength="20"/>
+          <div *ngIf="submitted && f.adminUserPassword.errors" class="invalid-feedback">
+            <div *ngIf="f.adminUserPassword.errors.required">Password is required</div>
+            <div *ngIf="f.adminUserPassword.errors.pattern">Invalid password.
+              Must be at-least 6 character long and alphanumeric.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-sm-10 col-md-10">
+          <label class="control-label">Confirm Password: <span
+            class="text-danger">*</span></label>
+          <input type="password" formControlName="adminUserConfirmPassword" class="form-control input-md"
+                 [ngClass]="{ 'is-invalid': submitted && f.adminUserConfirmPassword.errors }"/>
+          <div *ngIf="submitted && f.adminUserConfirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="f.adminUserConfirmPassword.errors.required">Confirm Password is required</div>
+            <div *ngIf="f.adminUserConfirmPassword.errors.mustMatch">Passwords must match</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+      <div class="form-row">
+        <div class="form-group col-sm-8 col-md-8 mt-3">
+          <button type="submit" class="btn btn-info">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="reset" class="btn btn-danger" (click)="onCancel()">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="clearfix"></div>
+
+  </div>
+</div>
+

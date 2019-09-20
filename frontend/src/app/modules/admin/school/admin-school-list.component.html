@@ -1,0 +1,56 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">School List</label>
+          <button-new-card [routeLink]="routeLink$" [text]="text$"></button-new-card>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="schoolList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th nzWidth="75px">#</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let school of schoolList; index as i">
+              <td>{{i+1}}</td>
+              <td>{{school.name}}</td>
+              <td>{{school.address}}</td>
+              <td>
+                <a routerLink="/admin/school/{{school.id}}/detail"
+                   class="mr-1" nzTitle="View {{school.name}} detail" nzPlacement="bottom" nz-tooltip>
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i></a>
+                <a routerLink="/admin/school/{{school.id}}/edit"
+                   class="mr-1" nzTitle="Edit {{school.name}} detail" nzPlacement="bottom" nz-tooltip>
+                  <i nz-icon type="save" theme="twotone" class="mr-1"></i></a>
+                <a nz-popconfirm nzTitle="Are you sure to delete '{{school.name}}' record?"
+                   (nzOnConfirm)="onDeleteConfirm()" (nzOnCancel)="onDeleteCancel()">
+                  <i nz-icon type="delete" theme="twotone" [nzTwotoneColor]="'#eb2f96'"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div [@routerTransition]>
+  <div nz-row [nzGutter]="8">
+    <div nz-col [nzSpan]="8">
+      <nz-card
+        class="dash-card"
+        [nzLoading]="loading">
+        <a routerLink="/client/student">
+          <nz-card-meta [nzAvatar]="totalStudentTemplate" nzTitle="{{totalStudent}}"
+                        nzDescription="Number of students"></nz-card-meta>
+        </a>
+      </nz-card>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-card
+        class="dash-card"
+        [nzLoading]="loading">
+        <a routerLink="/client/staff">
+          <nz-card-meta [nzAvatar]="totalTeacherTemplate" nzTitle="{{totalTeacher}}"
+                        nzDescription="Number of teacher"></nz-card-meta>
+        </a>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #totalStudentTemplate>
+  <nz-avatar nzSrc="https://img.icons8.com/ultraviolet/40/000000/student-male.png"></nz-avatar>
+</ng-template>
+
+<ng-template #totalTeacherTemplate>
+  <nz-avatar nzSrc="https://img.icons8.com/ultraviolet/40/000000/school-director-male-skin-type-4.png"></nz-avatar>
+</ng-template>
+
+<ng-template #actionEllipsis>
+  <i nz-icon type="ellipsis"></i>
+</ng-template>

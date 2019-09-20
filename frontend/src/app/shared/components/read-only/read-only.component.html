@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card mb-3">
+      <div class="card-header">
+        <label class="h6 mt-1">{{title}}</label>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div *ngFor="let content of contents" class="form-group col-sm-4 col-sm-4">
+            <div *ngIf="content.text !== null">
+              <label class="label-ro">{{content.label}}</label>
+              <label class="form-control-readonly font-weight-bold">
+                {{content.text}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

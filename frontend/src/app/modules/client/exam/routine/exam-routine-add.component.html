@@ -1,0 +1,43 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add Exam Routine</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="examAddForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+              <label>Exam Name</label>
+              <input type="text" formControlName="examName" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.examName.errors }"/>
+              <div *ngIf="submitted && f.examName.errors" class="invalid-feedback">
+                <div *ngIf="f.examName.errors.required">Exam name is required</div>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group row">
+              <div class="form-group col-sm-6 col-md-6 mt-2">
+                <button type="submit" class="btn btn-info mr-3">Submit
+                </button>
+                <button type="reset" class="btn btn-danger"
+                        (click)="onCancel()">Cancel
+                </button>
+              </div>
+            </div>
+
+          </form>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

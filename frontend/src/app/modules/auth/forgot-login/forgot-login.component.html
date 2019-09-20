@@ -1,0 +1,29 @@
+<div [@routerTransition]>
+  <div class="login-form">
+    <form [formGroup]="forgotLoginForm" (ngSubmit)="onSubmit()">
+      <div class="avatar">
+        <img src="assets/images/password-unlock.svg">
+      </div>
+      <h4 class="modal-title">Forgot Login</h4>
+
+      <div class="form-group">
+        <input type="text" formControlName="forgotLoginId" class="form-control" id="forgotLoginId"
+               placeholder="{{ 'Login ID' | translate }}" required
+               [ngClass]="{ 'is-invalid': submitted && f.forgotLoginId.errors }">
+        <div *ngIf="submitted && f.forgotLoginId.errors" class="invalid-feedback">
+          <div *ngIf="f.forgotLoginId.errors.minLength">Login Id is short</div>
+          <div *ngIf="f.forgotLoginId.errors.maxLength">Login Id is long</div>
+        </div>
+      </div>
+
+      <div class="form-group small clearfix">
+        <a routerLink="/login" class="forgot-link">Continue with login ?</a>
+      </div>
+
+      <button id="form_submit" type="submit" class="btn btn-primary btn-block btn-lg"
+              >Submit <i class="ti-arrow-right"></i>
+      </button>
+    </form>
+  </div>
+</div>
+

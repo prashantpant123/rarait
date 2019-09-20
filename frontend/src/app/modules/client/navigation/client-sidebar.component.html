@@ -1,0 +1,135 @@
+<nav class="sidebar pt-3" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="list-group">
+
+    <a routerLink="/client/academic-session" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="calendar" theme="outline"></i>&nbsp;
+      <span>{{ 'Academic Year' | translate }}</span>
+    </a>
+
+    <div class="nested-menu">
+      <a class="list-group-item" (click)="addExpandClass('class')">
+        <i nz-icon type="read" theme="outline"></i>&nbsp;
+        <span>{{ 'Class Management' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'class'">
+        <ul class="submenu">
+          <li>
+            <a routerLink="/client/class" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Class' | translate }}</span>
+            </a>
+            <a [routerLink]="['/client/class/section']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Class Section' | translate }}</span>
+            </a>
+            <a [routerLink]="['/client/class/routine']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Class Routine' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+
+    <a routerLink="/client/subject" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="book" theme="outline"></i>&nbsp;
+      <span>{{ 'Subject' | translate }}</span>
+    </a>
+
+    <a routerLink="/client/student" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="idcard" theme="outline"></i>&nbsp;
+      <span>{{ 'Student' | translate }}</span>
+    </a>
+
+    <a routerLink="/client/attendance" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="bars" theme="outline"></i>&nbsp;
+      <span>{{ 'Attendance' | translate }}</span>
+    </a>
+
+    <a routerLink="/client/staff" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i nz-icon type="user" theme="outline"></i>&nbsp;
+      <span>{{ 'School Staff' | translate }}</span>
+    </a>
+
+    <div class="nested-menu">
+      <a class="list-group-item" (click)="addExpandClass('exam')">
+        <i nz-icon type="schedule" theme="outline"></i>&nbsp;
+        <span>{{ 'Exam Manager' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'exam'">
+        <ul class="submenu">
+          <li>
+            <a [routerLink]="['/client/exam/term']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Term End' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/exam']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Exam' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/exam/routine']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Exam Routine' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/exam/result']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Exam Result' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/exam/progress-report']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Progress Report' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/exam/grade']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Grade Management' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+
+    <!--Bill/Account Manager-->
+    <div class="nested-menu">
+      <a class="list-group-item" (click)="addExpandClass('billing')">
+        <i nz-icon type="project" theme="outline"></i>&nbsp;
+        <span>{{ 'Billing Management' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'billing'">
+        <ul class="submenu">
+          <li>
+            <a [routerLink]="['/client/billing/fee']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Fees' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+
+    <div class="nested-menu">
+      <a class="list-group-item" (click)="addExpandClass('transport')">
+        <i nz-icon type="car" theme="outline"></i>&nbsp;
+        <span>{{ 'Transport Manager' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'transport'">
+        <ul class="submenu">
+          <li>
+            <a [routerLink]="['/client/transport']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Transport' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/client/transport/route']" [routerLinkActive]="['router-link-active']">
+              <span>{{ 'Route' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+
+  </div>
+  <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+    <i nz-icon type="double-left" theme="outline"></i>&nbsp;
+    <span>{{ '' | translate }}</span>
+  </div>
+</nav>

@@ -1,0 +1,192 @@
+defaultTasks "clean", "build"
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+       //maven { url 'http://192.168.1.72:8081/artifactory/libs-release-local' }
+//        maven { url 'http://localhost:8081/artifactory/libs-release-local' }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7"
+        classpath "net.saliman:gradle-cobertura-plugin:2.6.0"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.sonarqube'
+apply plugin: 'jacoco'
+apply plugin: 'net.saliman.cobertura'
+apply plugin: 'project-report'
+apply plugin: 'war'
+
+sourceCompatibility = project.sourceCompatibility
+targetCompatibility = project.targetCompatibility
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'http://192.168.1.72:8081/artifactory/libs-release-local' }
+}
+
+    configurations {
+        provided
+        providedRuntime
+    }
+
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter-data-jpa",
+                "org.springframework.boot:spring-boot-starter-web",
+                "org.springframework.boot:spring-boot-starter-aop",
+                "org.springframework.boot:spring-boot-starter-security",
+                "org.springframework.integration:spring-integration-ftp:$springIntegrationVersion",
+
+
+                "mysql:mysql-connector-java:$mysqlConnectorVersion",
+                "org.apache.tomcat:tomcat-jdbc:$tomcatJdbcVersion",
+
+                "net.bull.javamelody:javamelody-core:$javamelodyVersion",
+                "net.bull.javamelody:javamelody-spring-boot-starter:$javamelodyVersion",
+                "io.springfox:springfox-swagger2:$swaggerVersion",
+                "io.springfox:springfox-swagger-ui:$swaggerVersion",
+                "javax.mail:javax.mail-api:$javaxMailApiVersion",
+                "com.sun.mail:javax.mail:$javaxMailApiVersion",
+
+                "io.jsonwebtoken:jjwt:$jwtVersion",
+
+                "com.rarait.framework:core:$coreVersion",
+                "com.rarait.framework:security:$securityVersion"
+
+        compile group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: '9.1.6'
+        compile group: 'org.thymeleaf', name: 'thymeleaf', version: '2.1.5.RELEASE'
+        compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: '2.1.5.RELEASE'
+        compile group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: '9.1.6'
+        // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+        compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.14'
+
+
+
+
+        compileOnly "org.projectlombok:lombok:$lombokVersion"
+        runtime "com.h2database:h2"
+        annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+
+        compile project(':frontend')
+    }
+
+    task testJar(type: Jar, dependsOn: testClasses, description: "archive the testClasses") {
+        baseName = "${project.archivesBaseName}-tests"
+        classifier = "tests"
+        from sourceSets.test.output
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task resourcesJar(type: Jar) {
+        classifier 'resources'
+        from project.file('src/main/resources')
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    task cleanLogs(description: "Clean build log files") {
+        delete fileTree(dir: project.projectDir, includes: ['**/*.log', '**/*.gz', '**/*.log.gz'])
+    }
+
+    task cleanTempDir(type: Delete) {
+        delete fileTree(dir: 'src/main/resources/public')
+        delete fileTree(dir: 'src/docs/generated-snippets')
+    }
+
+    springBoot {
+        mainClassName = 'com.rarait.education.Application'
+    }
+
+    idea {
+        module {
+            downloadJavadoc = true
+            downloadSources = true
+            sourceDirs += file('src/main/generated')
+        }
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    sourceSets {
+        generated {
+            java { srcDirs = ['src/main/generated'] }
+        }
+        main {
+            java { srcDirs = ['src/main/java'] }
+            resources { srcDirs = ['src/main/resources'] }
+        }
+        test {
+            java { srcDirs = ['src/test/java'] }
+            resources { srcDirs = ['src/test/resources'] }
+        }
+    }
+
+    clean {
+        delete sourceSets.generated.java.srcDirs
+        dependsOn cleanTempDir
+    }
+
+    javadoc {
+        failOnError = false
+    }
+
+
+    gradle.buildFinished { buildResult ->
+        cleanLogs
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    clean.dependsOn('cleanLogs')
+
+    war {
+        archiveName = 'ROOT.war'
+        manifest {
+            attributes("Implementation-Title": "education",
+                    "Implementation-Vendor": "RaraIT",
+                    "Created-By": "RaraIT",
+                    "Implementation-Date": java.time.ZonedDateTime.now(),
+                    "Implementation-Version": "1.0")
+        }
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.host.url", "http://localhost:9000"
+            property "sonar.projectName", "education"
+            property "sonar.projectKey", "org.sonarqube:education"
+            property "sonar.dynamicAnalysis", "reuseReports"
+            property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+            property "sonar.cobertura.reportPath", "build/reports/cobertura/coverage.xml"
+            property "sonar.java.coveragePlugin", "cobertura"
+            property "sonar.login", "admin"
+            property "sonar.password", "test"
+        }
+    }

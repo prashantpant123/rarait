@@ -1,0 +1,85 @@
+<div [@routerTransition]>
+
+  <breadcrumb [links]="route"></breadcrumb>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <label class="h6 mt-1">Add New Fee</label>
+        </div>
+        <div class="card-body">
+
+          <form [formGroup]="feeCreateForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Class: <span
+                class="text-danger">*</span></label>
+              <select class="form-control"
+                      (change)="classSelectEvent($event.target.value,
+                       $event.target.options[$event.target.options.selectedIndex].text)">
+                <option value="0">Select</option>
+                <option *ngFor="let clazz of clazzList" value="{{clazz.id}}">{{clazz.name}}</option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Title: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="feeTitle" class="form-control input-md"
+                     [ngClass]="{ 'is-invalid': submitted && f.feeTitle.errors }" autofocus/>
+              <div *ngIf="submitted && f.feeTitle.errors" class="invalid-feedback">
+                <div *ngIf="f.feeTitle.errors.required">Fee title is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Amount(NPR): <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="feeAmount" class="form-control input-md"
+                     [ngClass]="{ 'is-invalid': submitted && f.feeAmount.errors }"/>
+              <div *ngIf="submitted && f.feeAmount.errors" class="invalid-feedback">
+                <div *ngIf="f.feeAmount.errors.required">Fee amount is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Taxable:</label><br/>
+              <nz-radio-group [(ngModel)]="_feeTaxable" formControlName="feeTaxable">
+                <label nz-radio nzValue="Yes">Yes</label>
+                <label nz-radio nzValue="No">No</label>
+              </nz-radio-group>
+            </div>
+
+            <div [hidden]="taxValue" class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Tax Value Mark: <span
+                class="text-danger">*</span></label>
+              <input type="text" formControlName="feeTaxValue" class="form-control input-md"
+                     [ngClass]="{ 'is-invalid': submitted && f.feeTaxValue.errors }"/>
+            </div>
+
+            <div class="form-group col-sm-5 col-md-5">
+              <label class="control-label">Description:</label>
+              <textarea formControlName="feeDescription" class="form-control input-md"
+                        rows="5" cols="50">
+              </textarea>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="form-group col-sm-3 col-md-3 mt-4">
+              <button type="submit" class="btn btn-info mr-4">Submit</button>
+              <button type="reset" class="btn btn-danger" (click)="onCancel()">
+                Cancel
+              </button>
+            </div>
+
+          </form>
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

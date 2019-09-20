@@ -1,0 +1,72 @@
+<div [@routerTransition]>
+  <breadcrumb [links]="route"></breadcrumb>
+  <div class="row">
+    <div class="col col-lg-12">
+      <div class="card mb-3">
+
+        <div class="card-header">
+          <div class="form-group-sm row">
+            <label class="col-sm-2 h6 mt-1">Exam Result</label>
+            <div class="mr-3">
+              <nz-select style="width: 250px;" class="form-control"
+                         nzAllowClear nzPlaceHolder="Select Exam"
+                         (ngModelChange)="examSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Exam"></nz-option>
+                <nz-option *ngFor="let exam of examList" nzValue="{{exam.id}}" nzLabel="{{exam.name}}"></nz-option>
+              </nz-select>
+            </div>
+            <div class="mr-3">
+              <nz-select style="width: 120px;" class="form-control"
+                         nzAllowClear nzPlaceHolder="Select Class"
+                         (ngModelChange)="classSelectEvent($event)">
+                <nz-option nzValue="0" nzLabel="Select Class"></nz-option>
+                <nz-option *ngFor="let clazz of classList" nzValue="{{clazz.id}}" nzLabel="{{clazz.name}}"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body table-responsive">
+          <nz-table #basicTable
+                    [nzData]="examResultList"
+                    [nzShowPagination]="_pagination"
+                    [nzBordered]="true"
+                    [nzFrontPagination]="false"
+                    [nzLoading]="_loading"
+                    [nzNoResult]="_noData"
+                    [nzTotal]="_totalItem"
+                    [nzPageIndex]="_currentPage"
+                    (nzPageIndexChange)="onPageChange($event)">
+            <thead>
+            <tr>
+              <th nzWidth="75px">#</th>
+              <th>Student Name</th>
+              <th>Roll Number</th>
+              <th>Marks Obtained</th>
+              <th>Status</th>
+              <th>Remarks</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let er of basicTable.data; index as i">
+              <td>{{i+1}}</td>
+              <td>{{er.student_name}}</td>
+              <td>{{er.roll_number}}</td>
+              <td>{{er.obtained_mark}}</td>
+              <td>{{er.status}}</td>
+              <td>{{er.remarks}}</td>
+              <td>
+                <a nz-tooltip routerLink="/client/exam/result/{{er.id}}/detail"
+                   class="mr-1" nzPlacement="bottom" nzTitle="View '{{er.roll_number}}' detail">
+                  <i nz-icon type="eye" theme="twotone" class="mr-1"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
